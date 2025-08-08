@@ -16,7 +16,7 @@ COPY --from=root /etc/ssl/certs/storage.googleapis.com.crt /etc/ssl/certs/storag
 
 WORKDIR /build
 
-COPY ./config/builder-config.yaml builder-config.yaml
+COPY ./resources/builder-config.yaml builder-config.yaml
 
 RUN --mount=type=cache,target=/root/.cache/go-build GO111MODULE=on go install go.opentelemetry.io/collector/cmd/builder@v0.128.0
 RUN --mount=type=cache,target=/root/.cache/go-build builder --config builder-config.yaml
@@ -34,7 +34,7 @@ COPY --from=root /usr/lib/ /usr/lib/
 ARG USER_UID=10001
 USER ${USER_UID}
 
-COPY ./config/collector-config.yaml /otelcol/collector-config.yaml
+COPY ./resources/collector-config.yaml /otelcol/collector-config.yaml
 
 COPY --from=root /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=root /etc/ssl/certs/storage.googleapis.com.crt /etc/ssl/certs/storage.googleapis.com.crt
@@ -45,5 +45,3 @@ ENTRYPOINT ["/otelcol/opentelemetry-chs-collector"]
 CMD ["--config", "/otelcol/collector-config.yaml"]
 
 EXPOSE 4317 4318 13133
-
-
