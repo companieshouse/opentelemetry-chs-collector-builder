@@ -6,7 +6,7 @@ RUN apk update && apk upgrade \
 
 RUN openssl s_client -connect storage.googleapis.com:443 -servername storage.googleapis.com </dev/null | openssl x509 -out /etc/ssl/certs/storage.googleapis.com.crt
 
-FROM golang:1.23.6 AS build-stage
+FROM 416670754337.dkr.ecr.eu-west-2.amazonaws.com/ci-golang-build-1.23 AS build-stage
 
 ENV GO111MODULE=on \
     CGO_ENABLED=1
@@ -19,6 +19,8 @@ WORKDIR /build
 COPY ./resources/builder-config.yaml builder-config.yaml
 
 RUN --mount=type=cache,target=/root/.cache/go-build GO111MODULE=on go install go.opentelemetry.io/collector/cmd/builder@v0.128.0
+
+ENV PATH="$PATH:/root/go/bin"
 RUN --mount=type=cache,target=/root/.cache/go-build builder --config builder-config.yaml
 
 FROM gcr.io/distroless/base:latest
