@@ -3,7 +3,7 @@ locals {
   stack_name                  = "search-service" # this must match the stack name the service deploys into
   name_prefix                 = "${local.stack_name}-${var.environment}"
   global_prefix               = "global-${var.environment}"
-  service_name                = "opentelemetry-collector-gateway"
+  service_name                = "opentelemetry-chs-collector"
   container_port              = "4318"
   eric_port                   = "10000"
   docker_repo                 = "opentelemetry-collector-contrib" #FIXME
