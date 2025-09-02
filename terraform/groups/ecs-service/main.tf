@@ -99,3 +99,12 @@ resource "aws_ssm_parameter" "otel_collector_config" {
   data_type   = "text"
   value       = file("${path.module}/gateway-otel-collector-config.yaml") # or use inline value
 }
+
+module "secrets" {
+  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/secrets?ref=1.0.341"
+
+  name_prefix = "${local.service_name}-${var.environment}"
+  environment = var.environment
+  kms_key_id  = data.aws_kms_key.kms_key.id
+  secrets     = nonsensitive(local.service_secrets)
+}
