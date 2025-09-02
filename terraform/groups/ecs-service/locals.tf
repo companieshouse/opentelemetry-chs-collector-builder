@@ -3,19 +3,17 @@ locals {
   stack_name                  = "search-service" # this must match the stack name the service deploys into
   name_prefix                 = "${local.stack_name}-${var.environment}"
   global_prefix               = "global-${var.environment}"
-  service_name                = "restricted-word-api"
-  container_port              = "8080"
+  service_name                = "opentelemetry-collector-gateway"
+  container_port              = "4318"
   eric_port                   = "10000"
-  docker_repo                 = "restricted-word-api"
+  docker_repo                 = "opentelemetry-collector-contrib" #FIXME
   kms_alias                   = "alias/${var.aws_profile}/environment-services-kms"
-  lb_listener_rule_priority   = 36
-  lb_listener_paths           = ["/internal/search/restricted-words", "/internal/restricted-word*", "/internal/search/super-restricted-words", "/restricted-word-api*"]
-  healthcheck_path            = "/restricted-word-api/healthcheck"
-  healthcheck_matcher         = "200"
+  lb_listener_rule_priority   = 200
+  lb_listener_paths           = [ "/v1/traces", "/v1/metrics", "/v1/logs" ]
+  healthcheck_path            = "/v1/traces" #"/health/status" #FIXME
+  healthcheck_matcher         = "405"
   vpc_name                    = local.stack_secrets["vpc_name"]
   s3_config_bucket            = data.vault_generic_secret.shared_s3.data["config_bucket_name"]
-  app_environment_filename    = "restricted-word-api.env"
-  use_set_environment_files   = var.use_set_environment_files
   application_subnet_ids      = data.aws_subnets.application.ids
 
   stack_secrets              = jsondecode(data.vault_generic_secret.stack_secrets.data_json)
@@ -44,13 +42,6 @@ locals {
       name = "GLOBAL_${var.ssm_version_prefix}${replace(upper(basename(sec.name)), "-", "_")}", value = sec.version
     }
   ]
-
-  # get eric secrets from global secrets map
-  eric_secrets = [
-    { "name": "API_KEY", "valueFrom": local.global_secrets_arn_map.eric_api_key },
-    { "name": "AES256_KEY", "valueFrom": local.global_secrets_arn_map.eric_aes256_key }
-  ]
-  eric_environment_filename = "eric.env"
 
   service_secrets_arn_map = {
     for sec in module.secrets.secrets:

@@ -35,23 +35,23 @@ module "ecs-service-otel-collector-gateway" {
   # Load balancer configuration
   # FIXME: serve with the new load balancer
   lb_listener_arn                 = data.aws_lb_listener.service_lb_listener.arn
-  lb_listener_rule_priority       = 200
-  lb_listener_paths               = [ "/v1/traces", "/v1/metrics", "/v1/logs" ]
+  lb_listener_rule_priority       = local.lb_listener_rule_priority
+  lb_listener_paths               = local.lb_listener_paths
 
   # ECS Task container health check
   use_task_container_healthcheck = false
   # FIXME http://localhost:13133/health/status
-  healthcheck_path               = "/v1/traces" #"/health/status"
-  healthcheck_matcher            = "405"
+  healthcheck_path               = local.healthcheck_path
+  healthcheck_matcher            = local.healthcheck_matcher
 
   # Docker container details
   docker_registry   = "otel" #FIXME
-  docker_repo       = "opentelemetry-collector-contrib" #FIXME
-  container_version = "0.128.0"
-  container_port    = "4318" #"13133"
+  docker_repo       = local.docker_repo
+  container_version = "0.128.0" #FIXME
+  container_port    = local.container_port
 
   # Service configuration
-  service_name = "opentelemetry-collector-gateway"
+  service_name = local.service_name
   name_prefix  = local.name_prefix
 
   # Service performance and scaling configs
@@ -87,8 +87,8 @@ module "ecs-service-otel-collector-gateway" {
   create_otel_collector_gateway = true
   use_otel_collector_gateway  = false
   use_main_application  = false
-  enable_execute_command = true # FIXME
-  read_only_root_filesystem = false # FIXME
+  enable_execute_command = false # FIXME
+  read_only_root_filesystem = true # FIXME
 }
 
 resource "aws_ssm_parameter" "otel_collector_config" {
@@ -98,14 +98,4 @@ resource "aws_ssm_parameter" "otel_collector_config" {
   tier        = "Standard"
   data_type   = "text"
   value       = file("${path.module}/gateway-otel-collector-config.yaml") # or use inline value
-}
-
-resource "aws_cloudwatch_log_group" "otel_instrumentation_logs" {
-  name              = "/ecs/${local.stack_name}-opentelemetry-collector-gateway-${var.environment}/instrumentation-log"
-  retention_in_days = 30
-}
-
-resource "aws_cloudwatch_log_stream" "log_stream" {
-  name            = "otel-integrations-stream"
-  log_group_name  = aws_cloudwatch_log_group.otel_instrumentation_logs.name
 }
