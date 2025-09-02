@@ -8,7 +8,7 @@ locals {
   eric_port                   = "10000"
   docker_repo                 = "opentelemetry-collector-contrib" #FIXME
   kms_alias                   = "alias/${var.aws_profile}/environment-services-kms"
-  lb_listener_rule_priority   = 200
+  lb_listener_rule_priority   = 220
   lb_listener_paths           = [ "/v1/traces", "/v1/metrics", "/v1/logs" ]
   healthcheck_path            = "/v1/traces" #"/health/status" #FIXME
   healthcheck_matcher         = "405"
