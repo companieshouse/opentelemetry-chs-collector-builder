@@ -1,0 +1,46 @@
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+processors:
+  batch/traces:
+    timeout: 1s
+    send_batch_size: 50
+  batch/metrics:
+    timeout: 60s
+
+  filter/drop_healthcheck_attributes:
+    traces:
+      span:
+        - 'IsMatch(attributes["url.path"], ".*healthcheck.*")'
+        - 'IsMatch(attributes["http.target"], ".*healthcheck.*")'
+        - 'IsMatch(attributes["http.route"], ".*healthcheck.*")'
+
+extensions:
+  health_check:
+    endpoint: "0.0.0.0:4317"
+    path: "/health/status"
+    response_body:
+      healthy: "UP"
+      unhealthy: "DOWN"
+
+exporters:
+  awsxray:
+  awsemf:
+    namespace: ECS/AWSOTel/Application
+    log_group_name: '/aws/ecs/application/metrics'
+  debug:
+    verbosity: detailed
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch/traces,filter/drop_healthcheck_attributes]
+      exporters: [debug,awsxray]
+    metrics:
+      receivers: [otlp]
+      processors: [batch/metrics]
+      exporters: [awsemf]
+
