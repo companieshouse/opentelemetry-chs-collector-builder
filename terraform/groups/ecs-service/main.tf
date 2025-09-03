@@ -29,7 +29,7 @@ module "ecs-service-otel-collector-gateway" {
   aws_profile             = var.aws_profile
   vpc_id                  = data.aws_vpc.vpc.id
   ecs_cluster_id          = data.aws_ecs_cluster.ecs_cluster.id
-  #task_role_arn           = aws_iam_role.aws_otel_role.arn #FIXME
+  task_role_arn           = aws_iam_role.aws_otel_role.arn #FIXME
   task_execution_role_arn = data.aws_iam_role.ecs_cluster_iam_role.arn
 
   # Load balancer configuration
