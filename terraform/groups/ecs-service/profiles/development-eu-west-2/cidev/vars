@@ -1,13 +1,2 @@
 environment = "cidev"
 aws_profile = "development-eu-west-2"
-
-# service configs
-log_level = "trace"
-
-required_cpus=256
-required_memory=512
-
-# Scheduled scaling of tasks
-service_autoscale_enabled  = true
-service_scaledown_schedule = "55 19 * * ? *"
-service_scaleup_schedule   = "5 6 * * ? *"
