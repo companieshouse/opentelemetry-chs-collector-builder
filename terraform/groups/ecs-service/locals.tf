@@ -5,7 +5,7 @@ locals {
   global_prefix               = "global-${var.environment}"
   service_name                = "opentelemetry-chs-collector"
   container_port              = "4318"
-  docker_repo                 = "opentelemetry-collector-contrib" #FIXME
+  docker_repo                 = "opentelemetry-chs-collector" #"opentelemetry-collector-contrib" #FIXME
   kms_alias                   = "alias/${var.aws_profile}/environment-services-kms"
   lb_listener_rule_priority   = 220
   lb_listener_paths           = [ "/v1/traces", "/v1/metrics", "/v1/logs" ]
