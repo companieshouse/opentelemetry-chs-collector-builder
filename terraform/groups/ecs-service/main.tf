@@ -84,9 +84,9 @@ module "ecs-service-otel-collector-gateway" {
   use_eric_reverse_proxy    = false
 
   # OTEL Collector side car configurations
-  create_otel_collector_gateway = true
+  create_otel_collector_gateway = false
   use_otel_collector_gateway  = false
-  use_main_application  = false
+  use_main_application  = true
   enable_execute_command = false # FIXME
   read_only_root_filesystem = true # FIXME
   container_command = [ "--config",  "env:AOT_CONFIG_CONTENT" ]
