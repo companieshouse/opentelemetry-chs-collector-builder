@@ -114,7 +114,8 @@ variable "log_level" {
   type        = string
   description = "The log level for services to use: trace, debug, info or error"
 }
-variable "container_version" {
+
+variable "opentelemetry_collector_version" {
   type        = string
   description = "The version of the application container to run."
 }
