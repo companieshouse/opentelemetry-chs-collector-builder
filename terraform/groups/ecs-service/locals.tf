@@ -1,11 +1,10 @@
 # Define all hardcoded local variable and local variables looked up from data resources
 locals {
-  stack_name                  = "search-service" # this must match the stack name the service deploys into
+  stack_name                  = "search-service" # this must match the stack name the service deploys into # FIXME
   name_prefix                 = "${local.stack_name}-${var.environment}"
   global_prefix               = "global-${var.environment}"
   service_name                = "opentelemetry-chs-collector"
   container_port              = "4318"
-  eric_port                   = "10000"
   docker_repo                 = "opentelemetry-collector-contrib" #FIXME
   kms_alias                   = "alias/${var.aws_profile}/environment-services-kms"
   lb_listener_rule_priority   = 220
@@ -62,8 +61,7 @@ locals {
   task_secrets = concat(local.service_secret_list,local.global_secret_list,[])
 
   task_environment = concat(local.ssm_global_version_map,local.ssm_service_version_map,[
-    { "name" : "PORT", "value" : local.container_port },
-    { "name" : "LOGLEVEL", "value" : var.log_level }
+    { "name" : "PORT", "value" : local.container_port }
   ])
 }
 

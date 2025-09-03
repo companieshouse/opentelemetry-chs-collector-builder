@@ -39,8 +39,7 @@ module "ecs-service-otel-collector-gateway" {
   lb_listener_paths               = local.lb_listener_paths
 
   # ECS Task container health check
-  use_task_container_healthcheck = false
-  # FIXME http://localhost:13133/health/status
+  use_task_container_healthcheck = false # FIXME
   healthcheck_path               = local.healthcheck_path
   healthcheck_matcher            = local.healthcheck_matcher
 
@@ -68,17 +67,18 @@ module "ecs-service-otel-collector-gateway" {
   fargate_subnets                    = local.application_subnet_ids
 
   # Cloudwatch
-  cloudwatch_alarms_enabled = false
+  cloudwatch_alarms_enabled = false # FIXME
 
   # Service environment variable and secret configs
   task_environment            = []
   task_secrets                = [
     {
       "name": "AOT_CONFIG_CONTENT",
-      "valueFrom": aws_ssm_parameter.otel_collector_config.arn #FIXME
+      "valueFrom": aws_ssm_parameter.otel_collector_config.arn
     }
   ]
-  use_set_environment_files   = false
+
+  use_set_environment_files = false #FIXME
 
   # eric options for eric running API module
   use_eric_reverse_proxy    = false
