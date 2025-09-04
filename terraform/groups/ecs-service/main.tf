@@ -44,7 +44,7 @@ module "ecs-service-otel-collector-gateway" {
   healthcheck_matcher            = local.healthcheck_matcher
 
   # Docker container details
-  docker_registry   = var.docker_registry # FIXME "otel"
+  docker_registry   = var.docker_registry
   docker_repo       = local.docker_repo
   container_version = var.opentelemetry_collector_version #"0.128.0" #FIXME
   container_port    = local.container_port
