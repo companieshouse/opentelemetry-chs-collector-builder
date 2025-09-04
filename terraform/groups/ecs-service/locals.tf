@@ -9,8 +9,8 @@ locals {
   kms_alias                   = "alias/${var.aws_profile}/environment-services-kms"
   lb_listener_rule_priority   = 220
   lb_listener_paths           = [ "/v1/traces", "/v1/metrics", "/v1/logs" ]
-  healthcheck_path            = "/v1/traces" #"/health/status" #FIXME
-  healthcheck_matcher         = "405"
+  healthcheck_path            = "/health" #"/v1/traces" #FIXME
+  healthcheck_matcher         = "200" #"405" #FIXME
   vpc_name                    = local.stack_secrets["vpc_name"]
   s3_config_bucket            = data.vault_generic_secret.shared_s3.data["config_bucket_name"]
   application_subnet_ids      = data.aws_subnets.application.ids
