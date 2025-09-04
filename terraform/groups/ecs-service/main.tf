@@ -38,7 +38,7 @@ module "ecs-service-otel-collector-gateway" {
   lb_listener_paths               = local.lb_listener_paths
 
   # ECS Task container health check
-  use_task_container_healthcheck = false # FIXME Enable
+  use_task_container_healthcheck = true # FIXME Enable
   healthcheck_path               = local.healthcheck_path
   healthcheck_matcher            = local.healthcheck_matcher
 
