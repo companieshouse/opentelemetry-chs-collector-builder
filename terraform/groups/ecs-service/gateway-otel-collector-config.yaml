@@ -19,8 +19,8 @@ processors:
 
 extensions:
   health_check:
-    endpoint: "0.0.0.0:4317"
-    path: "/health/status"
+    endpoint: "0.0.0.0:13133"
+    path: "/health"
     response_body:
       healthy: "UP"
       unhealthy: "DOWN"
