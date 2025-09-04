@@ -38,7 +38,7 @@ module "ecs-service-otel-collector-gateway" {
   lb_listener_paths               = local.lb_listener_paths
 
   # ECS Task container health check
-  use_task_container_healthcheck = true # FIXME Enable
+  use_task_container_healthcheck = true
   healthcheck_path               = local.healthcheck_path
   healthcheck_matcher            = local.healthcheck_matcher
 
@@ -59,7 +59,7 @@ module "ecs-service-otel-collector-gateway" {
   max_task_count                     = var.max_task_count
   required_cpus                      = var.required_cpus
   required_memory                    = var.required_memory
-  service_autoscale_enabled          = false # FIXME Enable the autoscaling
+  service_autoscale_enabled          = var.service_autoscale_enabled
   service_autoscale_target_value_cpu = var.service_autoscale_target_value_cpu
   service_scaledown_schedule         = var.service_scaledown_schedule
   service_scaleup_schedule           = var.service_scaleup_schedule
@@ -68,7 +68,7 @@ module "ecs-service-otel-collector-gateway" {
   fargate_subnets                    = local.application_subnet_ids
 
   # Cloudwatch
-  cloudwatch_alarms_enabled = false # FIXME
+  cloudwatch_alarms_enabled          = var.cloudwatch_alarms_enabled
 
   # Service environment variable and secret configs
   task_environment            = []
