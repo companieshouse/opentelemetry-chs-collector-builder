@@ -1,0 +1,3 @@
+environment = "live"
+aws_profile = "live-eu-west-2"
+cert_domain = "*.companieshouse.gov.uk"

@@ -1,0 +1,5 @@
+environment = "cidev"
+aws_profile = "development-eu-west-2"
+cert_domain = "cidev.aws.chdev.org"
+route53_domain_name = "aws.chdev.org"
+route53_aliases  = ["otel-collector"]
