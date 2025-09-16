@@ -84,11 +84,3 @@ variable "route53_domain_name" {
   description = "The type level of the DNS domain for internal access."
   default     = ""
 }
-
-# ----------------------------------------------------------------------
-# Loadbalancers
-# ----------------------------------------------------------------------
-variable "lb_name" {
-  type        = string
-  description = "The Loadbalancer name"
-}
