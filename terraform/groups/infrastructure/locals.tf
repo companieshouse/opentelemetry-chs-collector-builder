@@ -1,5 +1,5 @@
 locals {
-  lb_name                         = "opentelemetry-collector"
+  lb_name                         = "otel-collector"
   stack_name                      = "opentelemetry-collector"
   stack_fullname                  = "${local.stack_name}-service-stack"
   name_prefix                     = "${local.stack_name}-${var.environment}"
