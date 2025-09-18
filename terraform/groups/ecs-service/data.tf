@@ -1,10 +1,10 @@
 
 data "vault_generic_secret" "stack_secrets" {
-  path = "applications/${var.aws_profile}/${var.environment}/${local.stack_name}-stack"
+  path = "applications/${var.aws_profile}/${var.environment}/${local.stack_fullname}"
 }
 
 data "vault_generic_secret" "service_secrets" {
-  path = "applications/${var.aws_profile}/${var.environment}/${local.stack_name}-stack/${local.service_name}"
+  path = "applications/${var.aws_profile}/${var.environment}/${local.stack_fullname}/${local.service_name}"
 }
 
 data "aws_kms_key" "kms_key" {
@@ -34,7 +34,7 @@ data "aws_iam_role" "ecs_cluster_iam_role" {
 }
 
 data "aws_lb" "service_lb" {
-  name = "${var.environment}-otel-collector"
+  name = "alb-${var.environment}-otel-collector"
 }
 
 data "aws_lb_listener" "service_lb_listener" {
