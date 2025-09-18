@@ -1,9 +1,9 @@
 # Define all hardcoded local variable and local variables looked up from data resources
 locals {
-  stack_name                  = "search-service" # this must match the stack name the service deploys into # FIXME: opentelemetry-collector-cluster
+  stack_name                  = "opentelemetry-collector"
   name_prefix                 = "${local.stack_name}-${var.environment}"
   global_prefix               = "global-${var.environment}"
-  service_name                = "opentelemetry-chs-collector" #FIXME: opentelemetry-collector
+  service_name                = "opentelemetry-collector"
   container_port              = "4318"
 
   docker_repo                 = "opentelemetry-chs-collector" #FIXME: opentelemetry-collector
