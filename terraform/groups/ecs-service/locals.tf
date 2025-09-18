@@ -1,6 +1,6 @@
 # Define all hardcoded local variable and local variables looked up from data resources
 locals {
-  stack_name                  = "opentelemetry-collector"
+  stack_name                  = "opentelemetry-collector-service"
   name_prefix                 = "${local.stack_name}-${var.environment}"
   global_prefix               = "global-${var.environment}"
   service_name                = "opentelemetry-collector"
