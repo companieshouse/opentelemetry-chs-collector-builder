@@ -20,7 +20,7 @@ terraform {
 
 
 module "ecs-service-otel-collector-gateway" {
-  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/ecs-service?ref=feature/CC-2096-open-telemetry-spike"
+  source = "git@github.com:companieshouse/terraform-modules//aws/ecs/ecs-service?ref=1.0.346"
 
   # Environmental configuration
   environment             = var.environment
