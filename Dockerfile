@@ -41,9 +41,9 @@ COPY ./resources/collector-config.yaml /otelcol/collector-config.yaml
 COPY --from=root /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=root /etc/ssl/certs/storage.googleapis.com.crt /etc/ssl/certs/storage.googleapis.com.crt
 
-COPY --chmod=755 --from=build-stage /build/opentelemetry-chs-collector /otelcol
+COPY --chmod=755 --from=build-stage /build/opentelemetry-collector /otelcol
 
-ENTRYPOINT ["/otelcol/opentelemetry-chs-collector"]
+ENTRYPOINT ["/otelcol/opentelemetry-collector"]
 CMD ["--config", "/otelcol/collector-config.yaml"]
 
 EXPOSE 4317 4318 13133
