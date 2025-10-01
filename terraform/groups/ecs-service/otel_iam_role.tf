@@ -12,8 +12,7 @@ data "aws_iam_policy_document" "otel_task_assume_role" {
 }
 
 resource "aws_iam_role" "aws_otel_role" {
-#  name               = "${var.environment}-AWSOTelRole"
-  name               = "opentelemetry-chs-collector-${var.environment}"
+  name               = "opentelemetry-collector-${var.aws_profile}"
   assume_role_policy = data.aws_iam_policy_document.otel_task_assume_role.json
 
   description = "Allows ECS tasks to call AWS services on your behalf. This is for Open Telemetry collector."
@@ -51,7 +50,7 @@ data "aws_iam_policy_document" "otel_task_role" {
 
 resource "aws_iam_role_policy" "ecs_task_role_otel_policy" {
 #  name = "${var.environment}-AWSOpenTelemetryPolicy"
-  name = "opentelemetry-chs-collector-policy-${var.environment}"
+  name = "opentelemetry-collector-policy-${var.aws_profile}"
   role = aws_iam_role.aws_otel_role.id
 
   policy = data.aws_iam_policy_document.otel_task_role.json

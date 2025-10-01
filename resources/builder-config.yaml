@@ -1,7 +1,7 @@
 dist:
-  name: opentelemetry-chs-collector
+  name: opentelemetry-collector
   description: Opentelemetry collector distribution for instrumenting chs services
-  output_path: ./opentelemetry-chs-collector
+  output_path: ./opentelemetry-collector
   debug_compilation: true
 
 exporters:
