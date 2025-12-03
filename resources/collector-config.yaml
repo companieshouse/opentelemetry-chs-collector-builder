@@ -8,6 +8,20 @@ receivers:
 processors:
   batch:
 
+  tail_sampling:
+    policies: [
+      {
+        name: error-traces,
+        type: status_code,
+        status_code: { status_codes: [ ERROR ] }
+      },
+      {
+        name: normal-traces,
+        type: probabilistic,
+        probabilistic: { sampling_percentage: 5 }
+      },
+    ]
+
 extensions:
   health_check:
     endpoint: "0.0.0.0:13133"
@@ -25,7 +39,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [batch]
+      processors: [batch, tail_sampling]
       exporters: [debug]
     metrics:
       receivers: [otlp]
