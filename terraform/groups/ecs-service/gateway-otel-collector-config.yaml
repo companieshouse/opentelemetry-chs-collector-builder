@@ -17,6 +17,20 @@ processors:
         - 'IsMatch(attributes["http.target"], ".*healthcheck.*")'
         - 'IsMatch(attributes["http.route"], ".*healthcheck.*")'
 
+  tail_sampling:
+    policies: [
+      {
+        name: error-traces,
+        type: status_code,
+        status_code: { status_codes: [ ERROR ] }
+      },
+      {
+        name: normal-traces,
+        type: probabilistic,
+        probabilistic: { sampling_percentage: 5 }
+      },
+    ]
+
 extensions:
   health_check:
     endpoint: "0.0.0.0:13133"
@@ -37,7 +51,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [batch/traces,filter/drop_healthcheck_attributes]
+      processors: [batch/traces,filter/drop_healthcheck_attributes,tail_sampling]
       exporters: [debug,awsxray]
     metrics:
       receivers: [otlp]
